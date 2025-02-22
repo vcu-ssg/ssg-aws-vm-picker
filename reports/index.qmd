@@ -2,8 +2,16 @@
 title: Home
 ---
 
-This is a hack website creating using quarto.  Additional documents can be added later.
+This project website is creating using [Quarto](https://quarto.org/docs/websites/) and
+[GitHub Pages](https://quarto.org/docs/publishing/github-pages.html)
+
+The project repository is here: <https://github.com/vcu-ssg/ssg-aws-vm-picker>
+
+## Documents
+
+This site only contains one document.  Additional documents can be added later.
 
 [Discovery](discovery.qmd) is the only document on the site so far.  This document
 presents the concept for the application and walks through a series of ChatGPT
 learning how the application might be implementing using AWS resources.
+
