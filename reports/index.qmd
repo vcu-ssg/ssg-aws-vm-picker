@@ -1,0 +1,9 @@
+---
+title: Home
+---
+
+This is a hack website creating using quarto.  Additional documents can be added later.
+
+[Discovery](discovery.qmd) is the only document on the site so far.  This document
+presents the concept for the application and walks through a series of ChatGPT
+learning how the application might be implementing using AWS resources.

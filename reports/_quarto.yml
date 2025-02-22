@@ -1,0 +1,27 @@
+
+project:
+  type: website
+  output-dir: ../docs
+
+subtitle: Scaled VM Selection Application
+
+author:
+  - name: John Leonard
+    email: jdleonard@vcu.edu
+
+date: last-modified
+
+format:
+  html:
+    embed-resources: true
+    theme: cosmo
+
+website:
+  navbar:
+    background: primary
+    search: false
+    left:
+      - text: "Home"
+        href: index.qmd
+      - text: "Discovery"
+        href: discovery.qmd

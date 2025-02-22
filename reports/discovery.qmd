@@ -1,0 +1,163 @@
+---
+title: Discovery
+---
+
+This report documents a series of prompts with ChatGPT to learn more about the project.  Here is the version I'm using:
+
+OpenAI. (2024). ChatGPT (February 2024 version) [Large language model]. Retrieved from https://openai.com/chatgpt
+
+## Summary
+
+In the prompts below I asked ChatGPT to provide a framework for creating a *service catalog* where a user
+can select the power/size of a *virtual machine* from a menu.
+
+ChatGPT provided several options.  These looked *pricey* so I asked if there were options that could live within
+the *free tier*.
+
+Response: YES, there are several EC2 instances (t2.micro and t3.micro) that are available to the free tier.
+
+Because your developing a proof-of-concept, I suggest that you focus your development on the framework/service catalog
+stubbing out your various VM options using *t2.micro* and *t3.micro*.  This will minimize resource
+costs, and once your ready for production testing, you can swap to larger, more realistic, and more pricey options.
+
+
+
+::: {style="background-color: lightgray; padding: 5px 0; margin 5px 0"}
+# Prompt 1
+:::
+
+
+Below is my first prompt. You can copy/paste this into chatGPT.
+
+ Scroll you mouse over the text box to get a "copy to clipboard" icon in the top right of the text box.
+
+```bash
+i use AWS. My colleagues often need access to virtual machines. Rather 
+than having them set up them up themselves, i'd like to create a menu
+application that let's them select how much memory and disk they need
+for their specific purpose.  For example, they might choose between a 
+small VM", a "medium sized VM" and a large VM.
+How should I approach this?
+```
+
+::: {style="background-color: lightgray;"}
+## Response 1
+:::
+
+To create a menu-driven application that allows colleagues to select AWS virtual machines based on predefined sizes (e.g., small, medium, large), you can follow this structured approach:
+
+### 1. **Define VM Profiles**
+Create a mapping of instance types to resource allocations:
+- **Small VM**: 2 vCPUs, 4GB RAM, 50GB disk (`t3.small`)
+- **Medium VM**: 4 vCPUs, 8GB RAM, 100GB disk (`t3.medium`)
+- **Large VM**: 8 vCPUs, 16GB RAM, 200GB disk (`t3.large`)
+
+### 2. **Choose a Deployment Method**
+Decide how you want to deploy the application:
+- **CLI-based (Python and Click or Typer)**
+- **Web-based (Flask with Bootstrap UI)**
+- **AWS Lambda + API Gateway (for a serverless approach)**
+- **Slack/Discord Bot for Requests**
+
+### 3. **Use AWS SDK (Boto3) to Automate EC2 Creation**
+You’ll need:
+- IAM permissions to create EC2 instances
+- The **boto3** Python library to interact with AWS services
+
+Example function to launch an instance:
+```python
+import boto3
+
+ec2 = boto3.client('ec2')
+
+def create_instance(instance_type, volume_size, key_name, security_group):
+    response = ec2.run_instances(
+        ImageId="ami-12345678",  # Replace with a valid AMI ID
+        InstanceType=instance_type,
+        MinCount=1,
+        MaxCount=1,
+        KeyName=key_name,
+        SecurityGroupIds=[security_group],
+        BlockDeviceMappings=[
+            {
+                "DeviceName": "/dev/xvda",
+                "Ebs": {
+                    "VolumeSize": volume_size,
+                    "DeleteOnTermination": True,
+                },
+            }
+        ]
+    )
+    instance_id = response['Instances'][0]['InstanceId']
+    print(f"Instance {instance_id} created.")
+    return instance_id
+```
+
+### 4. **Build a User-Friendly Menu**
+
+- **For CLI Users** (Python Click):
+
+```python
+import click
+
+@click.command()
+@click.option("--size", type=click.Choice(["small", "medium", "large"]), required=True)
+def launch_vm(size):
+	instance_configs = {
+		"small": ("t3.small", 50),
+		"medium": ("t3.medium", 100),
+		"large": ("t3.large", 200),
+	}
+	instance_type, volume_size = instance_configs[size]
+	create_instance(instance_type, volume_size, "my-key", "sg-12345")
+
+if __name__ == "__main__":
+	launch_vm()
+```
+
+- **For Web Users** (Flask):
+  Create a simple web interface using Flask and Bootstrap to allow selection from a dropdown menu.
+
+### 5. **Permissions and Security**
+- Ensure your AWS IAM role has the correct **EC2 instance creation permissions**.
+- Use **AWS Systems Manager Session Manager** instead of SSH for access control.
+- Consider **tagging instances** for tracking and cleanup.
+
+### 6. **Automate Cleanup**
+Set up AWS Lambda or a scheduled job to check for unused instances and terminate them.
+
+
+::: {style="background-color: lightgray; padding: 5px 0; margin 5px 0"}
+# Prompt 2
+:::
+
+Here is my second prompt. Again, you can cut/paste this into your copy of ChatGPT.
+
+```bash
+can I access "t3.small", "t3.medium" and t3.large resources using a free account?
+```
+
+::: {style="background-color: lightgray;"}
+## Response 2
+:::
+
+No, AWS Free Tier does not cover **t3.small**, **t3.medium**, or **t3.large** instances. However, you can use **t2.micro** or **t3.micro** for free under the AWS Free Tier.
+
+### **AWS Free Tier Eligibility**
+- **t2.micro** and **t3.micro** are the only EC2 instances included in the Free Tier.
+- Free Tier allows **750 hours per month** for the first **12 months** after account creation.
+- After 12 months, you’ll be charged standard rates for all instances.
+
+### **Workarounds**
+1. **Use t3.micro Instead**  
+   If your workloads can fit within 1 vCPU and 1GB RAM, you can modify your script to allow **t3.micro** as an option.
+
+2. **Leverage Spot Instances**  
+   If your workload is flexible, consider **Spot Instances** to reduce costs.
+
+3. **Use AWS Educate or AWS Activate (for startups)**  
+   If you are a student or part of a startup, AWS offers **free credits** that may cover larger instances.
+
+Would you like me to modify the instance selection logic to default to Free Tier options when necessary?
+
+

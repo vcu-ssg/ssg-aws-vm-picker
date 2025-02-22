@@ -1,0 +1,37 @@
+[
+  {
+    "objectID": "discovery.html",
+    "href": "discovery.html",
+    "title": "Discovery",
+    "section": "",
+    "text": "This report documents a series of prompts with ChatGPT to learn more about the project. Here is the version I’m using:\nOpenAI. (2024). ChatGPT (February 2024 version) [Large language model]. Retrieved from https://openai.com/chatgpt\nBelow is my first prompt. You can copy/paste this into chatGPT.\nScroll you mouse over the text box to get a “copy to clipboard” icon in the top right of the text box.\nTo create a menu-driven application that allows colleagues to select AWS virtual machines based on predefined sizes (e.g., small, medium, large), you can follow this structured approach:\nHere is my second prompt. Again, you can cut/paste this into your copy of ChatGPT.\nNo, AWS Free Tier does not cover t3.small, t3.medium, or t3.large instances. However, you can use t2.micro or t3.micro for free under the AWS Free Tier."
+  },
+  {
+    "objectID": "discovery.html#summary",
+    "href": "discovery.html#summary",
+    "title": "Discovery",
+    "section": "Summary",
+    "text": "Summary\nIn the prompts below I asked ChatGPT to provide a framework for creating a service catalog where a user can select the power/size of a virtual machine from a menu.\nChatGPT provided several options. These looked pricey so I asked if there were options that could live within the free tier.\nResponse: YES, there are several EC2 instances (t2.micro and t3.micro) that are available to the free tier.\nBecause your developing a proof-of-concept, I suggest that you focus your development on the framework/service catalog stubbing out your various VM options using t2.micro and t3.micro. This will minimize resource costs, and once your ready for production testing, you can swap to larger, more realistic, and more pricey options."
+  },
+  {
+    "objectID": "discovery.html#response-1",
+    "href": "discovery.html#response-1",
+    "title": "Discovery",
+    "section": "Response 1",
+    "text": "Response 1"
+  },
+  {
+    "objectID": "discovery.html#response-2",
+    "href": "discovery.html#response-2",
+    "title": "Discovery",
+    "section": "Response 2",
+    "text": "Response 2"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Home",
+    "section": "",
+    "text": "This is a hack website creating using quarto. Additional documents can be added later.\nDiscovery is the only document on the site so far. This document presents the concept for the application and walks through a series of ChatGPT learning how the application might be implementing using AWS resources."
+  }
+]
